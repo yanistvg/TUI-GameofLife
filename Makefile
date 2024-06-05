@@ -6,7 +6,9 @@ CFLAGS=-Wall -Wextra -Wconversion
 OBJS= main.o              \
       interact-terminal.o \
 	  game.o              \
-	  parse.o
+	  parse.o             \
+	  show_game.o         \
+	  draw_utils.o
 
 all: ${OBJS}
 	${CC} ${CFLAGS} -o ${PROGNAME} ${OBJS}
@@ -19,6 +21,10 @@ game.o: libs/srcs/game.c libs/headers/game.h
 	${CC} ${CFLAGS} -c libs/srcs/game.c
 parse.o: libs/srcs/parse.c libs/headers/parse.h
 	${CC} ${CFLAGS} -c libs/srcs/parse.c
+show_game.o: libs/srcs/show_game.c libs/headers/show_game.h
+	${CC} ${CFLAGS} -c libs/srcs/show_game.c
+draw_utils.o: libs/srcs/draw_utils.c libs/headers/draw_utils.h
+	${CC} ${CFLAGS} -c libs/srcs/draw_utils.c
 
 clean:
 	rm ${OBJS} ${PROGNAME}

@@ -77,3 +77,38 @@ void game_destroy_structure(void) {
 
     bzero(&game, sizeof(struct game_t));
 }
+
+/**
+ * permet d'afficher le plateau de jeu au lancement de la
+ * partie
+ * 
+ * @param
+ * 
+ * @return none
+ * 
+ * @date 2024-06-05
+*/
+void game_start_drawing(void) {
+    drawUtils_clear_term();
+
+    showGame_draw_day(game.day);
+    showGame_draw_count_cells(game.currant_cells, game.size[X]);
+    showGame_draw_max_day(game.max_day, game.size[X]);
+    showGame_draw_cells(game.board, game.size);
+}
+
+/**
+ * permet d'afficher le plateau de jeu en affichant les
+ * partie sur le terminal qui change
+ * 
+ * @param
+ * 
+ * @return none
+ * 
+ * @date 2024-06-05
+*/
+void game_drawing(void) {
+    showGame_draw_day(game.day);
+    showGame_draw_count_cells(game.currant_cells, game.size[X]);
+    showGame_draw_cells(game.board, game.size);
+}

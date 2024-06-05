@@ -7,6 +7,8 @@
 
 #include "./interact-terminal.h"
 #include "./parse.h"
+#include "./show_game.h"
+#include "./draw_utils.h"
 
 #define _YG_CELLS_VALUE_ 1
 
@@ -20,5 +22,7 @@ struct game_t {
 
 int  game_init_structure(struct parameters_t *parameters, struct terminal_info_t *term);
 void game_destroy_structure(void);
+void game_start_drawing(void);
+void game_drawing(void);
 
 #endif
