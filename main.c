@@ -9,18 +9,44 @@
  * puit la simulation est demarer pour visualiser ces cellules
  * progresser
  * 
- * @date 2024-06-04
+ * @date 2024-06-05
 */
 int main(int argc, char **argv) {
     int errors;
 
-    if (getTermSize() == _YG_FAIL_GET_SCREEN_SIZE_) {
-        printf("**ERROR de recuperation de la taille de la fenetre\n");
-        return 1;
-    }
+    //* ----------------------------------------------- *//
+    //* section de preparation avant l'execution du jeu *//
+    //* ----------------------------------------------- *//
 
-    errors = parse_check(argc, (const char**)argv);
-    if (errors) parse_show_error(errors);
+    if ((errors = getTermSize())) print_error(_YG_FAIL_GET_SCREEN_SIZE_);
+    if ((errors = parse_check(argc, (const char**)argv))) parse_show_error(errors);
+    if ((errors = game_init_structure(&parameters, &term))) print_error(errors);
+
+    //* ----------------------------------------------- *//
+    //*                demarrage du jeu                 *//
+    //* ----------------------------------------------- *//
+
+
+
+    //* ----------------------------------------------- *//
+    //*          fin de l'execution du programme        *//
+    //* ----------------------------------------------- *//
+    game_destroy_structure();
 
     return _YG_SUCCESS_;
+}
+
+/**
+ * affiche une erreur sur le terminal quand elle est genere par
+ * des function extern au projet
+ * 
+ * @param error valeur de l'erreur qui a ete genere
+ * 
+ * @return none
+ * 
+ * @date 2024-06-05
+*/
+void print_error(int error) {
+    perror("ERROR");
+    exit(error);
 }

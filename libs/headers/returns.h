@@ -14,5 +14,6 @@
 #define _YG_BAD_PARAMETERS_          1
 #define _YG_BAD_CELLS_INPUT_         2
 #define _YG_NO_PARAMETER_INTENTIFY_  3
+#define _YG_BAD_DAYS_INPUT_          4
 
 #endif

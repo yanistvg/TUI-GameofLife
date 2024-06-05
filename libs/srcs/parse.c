@@ -13,18 +13,21 @@ struct parameters_t parameters;
  * 
  * @returns
  * 
- * @date 2024-06-04
+ * @date 2024-06-05
 */
 int parse_check(const int param_count, const char **param) {
     int i = 0;
 
     srand((unsigned int)time(NULL));
 
+    /* set des valeurs par default pour en cas de non renseignement */
+    parameters.init_cellules_count = (rand() % _YG_RAND_MAX_CELLS_) + 1;
+    parameters.max_day = _YG_MIN_DAYS_;
+
     /* set les valeurs par default si pas de parametre */
     /* ce qui implique de generer un nombre aleatoire  */
     /* de cellules                                     */
     if (param_count <= 1) {
-        parameters.init_cellules_count = (rand() % _YG_RAND_MAX_CELLS_) + 1;
         return _YG_SUCCESS_;
     }
 
@@ -38,6 +41,16 @@ int parse_check(const int param_count, const char **param) {
             sscanf(param[i], "%d", &(parameters.init_cellules_count));
 
             if (parameters.init_cellules_count <= 0) return _YG_BAD_CELLS_INPUT_;
+            continue;
+        }
+
+        /* extraire le nombre de generation a realiser */
+        if (strcmp(param[i], _YG_PARAM_DAYS_) == 0) {
+            if (++i >= param_count) return _YG_BAD_DAYS_INPUT_;
+
+            sscanf(param[i], "%d", &(parameters.max_day));
+
+            if (parameters.init_cellules_count <= 1) return _YG_BAD_DAYS_INPUT_;
             continue;
         }
 
@@ -60,7 +73,7 @@ int parse_check(const int param_count, const char **param) {
  * 
  * @return none
  * 
- * @date 2024-06-04
+ * @date 2024-06-05
 */
 void parse_show_error(int error) {
     /* afficher un message personnaliser en fonction de l'erreur */
@@ -71,6 +84,9 @@ void parse_show_error(int error) {
             printf("%sErreur : parametre %s est soit inferieur a zero ou non definie%s\n", TEXT_RED, _YG_PARAM_CELLS_, DEFAULT_COLOR); break;
         case _YG_NO_PARAMETER_INTENTIFY_:
             printf("%sErreur : un ou plusieur parametre n'ont pas etais identifier%s\n", TEXT_RED, DEFAULT_COLOR); break;
+        case _YG_BAD_DAYS_INPUT_:
+            printf("%sErreur : parametre %s est soit inferieur a un ou non definie%s\n", TEXT_RED, _YG_PARAM_DAYS_, DEFAULT_COLOR); break;
+
         case _YG_SHOW_MAN_: error = 0; break;
         default:
             printf("%sErreur : Heu, il faut que je comprenne ... c'est pas normal mais bon erreur quand meme%s\n", TEXT_RED, DEFAULT_COLOR);
@@ -81,7 +97,7 @@ void parse_show_error(int error) {
     
     printf("\t%s%s%s                   - pour afficher ce manuel\n", TEXT_YELLOW, _YG_PARAM_HELP_, DEFAULT_COLOR);
     printf("\t%s%s %s<number>%s - permet de selectionner le nombre de cellules pour la simulation, le nombre dois etre superieur a zero\n", TEXT_YELLOW, _YG_PARAM_CELLS_, TEXT_GREEN, DEFAULT_COLOR);
-
+    printf("\t%s%s %s<number>%s          - permet de choisir le nombre de generation a effectuer: par default 100\n", TEXT_YELLOW, _YG_PARAM_DAYS_, TEXT_GREEN, DEFAULT_COLOR);
 
     exit(error);
 }
