@@ -22,5 +22,7 @@ int getTermSize(void) {
 	if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &w) < 0) return _YG_FAIL_GET_SCREEN_SIZE_;
 	term.size[X] = w.ws_col;
 	term.size[Y] = w.ws_row;
+
+	if (term.size[X] < MIN_X_SIZE || term.size[Y] < MIN_Y_SIZE) return _YG_MIN_VALUE_REQUIRED_;
 	return _YG_SUCCESS_;
 }

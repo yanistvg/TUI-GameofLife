@@ -17,6 +17,9 @@ struct terminal_info_t {
 #define X 0
 #define Y 1
 
+#define MIN_X_SIZE 30
+#define MIN_Y_SIZE 10
+
 int getTermSize(void);
 
 #endif

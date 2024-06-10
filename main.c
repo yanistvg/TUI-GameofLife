@@ -18,7 +18,7 @@ int main(int argc, char **argv) {
     //* section de preparation avant l'execution du jeu *//
     //* ----------------------------------------------- *//
 
-    if ((errors = getTermSize())) print_error(_YG_FAIL_GET_SCREEN_SIZE_);
+    if ((errors = getTermSize())) print_error(errors);
     if ((errors = parse_check(argc, (const char**)argv))) parse_show_error(errors);
     if ((errors = game_init_structure(&parameters, &term))) print_error(errors);
 
@@ -26,6 +26,7 @@ int main(int argc, char **argv) {
     //*                demarrage du jeu                 *//
     //* ----------------------------------------------- *//
     game_start_drawing();
+    game_start();
 
 
     //* ----------------------------------------------- *//

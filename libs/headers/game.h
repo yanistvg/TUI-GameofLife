@@ -4,6 +4,7 @@
 #include <strings.h>
 #include <time.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #include "./interact-terminal.h"
 #include "./parse.h"
@@ -24,5 +25,7 @@ int  game_init_structure(struct parameters_t *parameters, struct terminal_info_t
 void game_destroy_structure(void);
 void game_start_drawing(void);
 void game_drawing(void);
+void game_start(void);
+int  change_grid_with_rule(void);
 
 #endif

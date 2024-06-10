@@ -5,6 +5,7 @@
 
 // returns from interact-terminal //
 #define _YG_FAIL_GET_SCREEN_SIZE_ 1
+#define _YG_MIN_VALUE_REQUIRED_   2
 
 // returns from game //
 #define _YG_MALLOC_ERROR_ 1
