@@ -10,6 +10,7 @@
 #include "./parse.h"
 #include "./show_game.h"
 #include "./draw_utils.h"
+#include "./interact-file.h"
 
 #define _YG_CELLS_VALUE_ 1
 
@@ -19,6 +20,8 @@ struct game_t {
     int     day;
     int     currant_cells;
     int     max_day;
+    int     delay;
+    int     fd_export_file;
 };
 
 int  game_init_structure(struct parameters_t *parameters, struct terminal_info_t *term);

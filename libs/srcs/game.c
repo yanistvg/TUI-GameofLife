@@ -15,6 +15,8 @@ struct game_t game;
  * @returns _YG_MALLOC_ERROR_ si une erreur c'est produit durant l'allocation
  * de memoire du plateau de jeu
  * @returns _YG_SUCCESS_ si la structure c'est bien initialiser
+ * @returns _YG_FAILED_OPEN_FILE_ si une erreur durant l'ouverture du fichier
+ * d'exportation du fichier csv
  * 
  * @date 2024-06-05
 */
@@ -32,6 +34,21 @@ int game_init_structure(struct parameters_t *parameters, struct terminal_info_t 
         ? parameters->init_cellules_count
         : game.size[X];
     game.max_day = parameters->max_day;
+    game.delay = parameters->delay_sleeping;
+
+    if (parameters->set_x > 0 && parameters->set_x <= game.size[X]) {
+        game.size[X] = parameters->set_x % 2 == 0
+            ? parameters->set_x / 2
+            : (parameters->set_x - 1) / 2;
+    }
+    if (parameters->set_y > 0 && parameters->set_y <= game.size[Y]) {
+        game.size[Y] = parameters->set_y;
+    }
+
+    game.fd_export_file = 0;
+    if (strlen(parameters->export_file) > 0) {
+        if ((game.fd_export_file = open_csv_file(parameters->export_file)) <= 0) return _YG_FAILED_OPEN_FILE_;
+    }
 
     // creation du plateau de jeu au dimention de la fenetre
     game.board = malloc(sizeof(char *) * (unsigned long)game.size[X]);
@@ -75,6 +92,8 @@ void game_destroy_structure(void) {
         free(game.board[x]);
     }
     free(game.board);
+
+    close_csv_file(game.fd_export_file);
 
     bzero(&game, sizeof(struct game_t));
 }
@@ -126,7 +145,7 @@ void game_drawing(void) {
 */
 void game_start(void) {
     while (game.day < game.max_day) {
-        usleep(1000000);
+        usleep((useconds_t)game.delay);
         game.day++;
 
         // appliquer les regles du jeu pour chaque cellules
@@ -134,6 +153,7 @@ void game_start(void) {
 
         // afficher les changements sur la grilles
         game_drawing();
+        write_csv_file(game.currant_cells, game.fd_export_file);
     }
 }
 

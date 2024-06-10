@@ -8,7 +8,8 @@ OBJS= main.o              \
 	  game.o              \
 	  parse.o             \
 	  show_game.o         \
-	  draw_utils.o
+	  draw_utils.o        \
+	  interact-file.o
 
 all: ${OBJS}
 	${CC} ${CFLAGS} -o ${PROGNAME} ${OBJS}
@@ -25,6 +26,8 @@ show_game.o: libs/srcs/show_game.c libs/headers/show_game.h
 	${CC} ${CFLAGS} -c libs/srcs/show_game.c
 draw_utils.o: libs/srcs/draw_utils.c libs/headers/draw_utils.h
 	${CC} ${CFLAGS} -c libs/srcs/draw_utils.c
+interact-file.o: libs/srcs/interact-file.c libs/headers/interact-file.h
+	${CC} ${CFLAGS} -c libs/srcs/interact-file.c
 
 clean:
 	rm ${OBJS} ${PROGNAME}
