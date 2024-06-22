@@ -10,6 +10,7 @@ void close_csv_file(int fd) {
 }
 
 void write_csv_file(const int cells, const int fd) {
+    if (fd <= 0) return;
     char element[100];
 
     bzero(element, sizeof(char) * (unsigned long)100);
